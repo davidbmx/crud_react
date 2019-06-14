@@ -7,6 +7,9 @@
 var app = require('../app');
 var debug = require('debug')('crud-react:server');
 var http = require('http');
+var mongoose = require('mongoose');
+var mocks = require('../mocks/usersMocks');
+require('dotenv').config();
 
 /**
  * Get port from environment and store in Express.
@@ -20,6 +23,14 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+/**
+ * Conect to Mongoose
+ */
+mongoose.connect(process.env.MONGO_URL, () => {
+  debug('Conect to database');
+  mocks.createUsers();
+})
 
 /**
  * Listen on provided port, on all network interfaces.
