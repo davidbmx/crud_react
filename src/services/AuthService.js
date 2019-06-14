@@ -18,20 +18,29 @@ class AuthService {
     }
 
     login(body) {
-        fetch(`${this.url}/api/users/login`, {
+        return fetch(`${this.url}/api/users/login`, {
             method: 'POST',
             body: JSON.stringify(body),
             headers: {
                 'Content-Type': 'application/json'
             }
         })
+        .then(this.handleErrors)
         .then(res => res.json())
         .then(data => {
-            console.log(0, data);
+            if (data.token) {
+                return this.handleData(data);
+            }
+            return data;
         })
-        .catch(error => {
-            console.log(1, error);
+        .catch((error) => {
+            console.log(error);
         });
+    }
+
+    handleData(data) {
+        localStorage.setItem('user', JSON.stringify(data));
+        return null;
     }
 }
 

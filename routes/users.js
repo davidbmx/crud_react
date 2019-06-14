@@ -37,7 +37,7 @@ router.use((req, res, next) => {
 router.post('/login', async (req, res, next) => {
   const user = await Users.find({ username: req.body.username }).exec();
   if (user.length !== 1) {
-    next(401);
+    return next(401);
   }
 
   bcrypt.compare(req.body.password, user[0].password, (error, result) => {

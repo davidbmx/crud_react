@@ -13,7 +13,8 @@ class Auth extends Component {
         dataError: {
             username: '',
             password: ''
-        }
+        },
+        error: ''
     };
 
     constructor() {
@@ -44,7 +45,13 @@ class Auth extends Component {
             });
             return;
         }
-        auth.login(body);
+        auth.login(body).then(data => {
+            if (data) {
+                this.setState({error: data.error});
+            } else {
+                this.setState({error: ''});
+            }
+        });
     }
 
     render() {
@@ -52,6 +59,11 @@ class Auth extends Component {
         return (
             <div className="auth">
                 <form onSubmit={this.handleSubmit}>
+                    {this.state.error ? 
+                        <div>
+                            {this.state.error}
+                        </div> : ''
+                    }
                     <div className="form-group">
                         <label htmlFor="username">Username</label>
                         <input type="text" id="username" className="form-control" onChange={this.handleChange}/>
