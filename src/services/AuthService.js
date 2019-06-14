@@ -42,6 +42,16 @@ class AuthService {
         localStorage.setItem('user', JSON.stringify(data));
         return null;
     }
+
+    isAuthenticated() {
+      let user;
+      try {
+          user = JSON.parse(localStorage.getItem('user'));
+      } catch (err) {
+        console.log(err);
+      }
+      return user ? true : false;
+    }
 }
 
 export default AuthService;

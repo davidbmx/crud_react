@@ -15,7 +15,7 @@ const createUsers = () => {
                         last_name: 'admin',
                         roles: ['create', 'read', 'update', 'delete']
                     });
-                    
+
                     user.save().then();
                 }
             });

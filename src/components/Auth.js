@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import AuthService from '../services/AuthService';
 
 const auth = new AuthService();
@@ -56,10 +57,14 @@ class Auth extends Component {
 
     render() {
         const errors = this.state.dataError;
+        if (auth.isAuthenticated()) {
+          return <Redirect to={{pathname: '/products'}}/>
+        }
+
         return (
             <div className="auth">
                 <form onSubmit={this.handleSubmit}>
-                    {this.state.error ? 
+                    {this.state.error ?
                         <div>
                             {this.state.error}
                         </div> : ''
@@ -71,7 +76,7 @@ class Auth extends Component {
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">Password</label>
-                        <input type="text" id="password" className="form-control" onChange={this.handleChange}/>
+                        <input type="password" id="password" className="form-control" onChange={this.handleChange}/>
                         {errors.password ? <span>{errors.password}</span> : ''}
                     </div>
                     <div className="text-center">
